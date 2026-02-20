@@ -24,6 +24,10 @@ import DrugInventory from "./Pages/Manufacturer/DrugInventory";
 import VerifyDrug from "./Pages/Manufacturer/VerifyDrug";
 import AyushmaanChainLanding from "./Pages/AyushmaanChainLanding";
 
+// Hospital Imports
+import HospitalLayout from "./Components/HospitalLayout";
+import HospitalDashboard from "./Pages/Hospital/HospitalDashBoard";
+
 function App() {
   return (
     <AuthProvider>
@@ -57,6 +61,7 @@ function MainContent() {
               <Routes>
                 <Route path="/homepage" element={<Layout><HomePage /></Layout>} />
 
+                {/* Patient Routes */}
                 {user.role === "patient" && (
                   <Route path="/patient" element={<Layout />}>
                     <Route index element={<Navigate to="dashboard" replace />} />
@@ -69,6 +74,7 @@ function MainContent() {
                   </Route>
                 )}
 
+                {/* Doctor Routes */}
                 {user.role === "doctor" && (
                   <Route path="/doctor" element={<DoctorLayout />}>
                     <Route index element={<Navigate to="patient-manager" replace />} />
@@ -76,6 +82,7 @@ function MainContent() {
                   </Route>
                 )}
 
+                {/* Pharmacist Routes */}
                 {user.role === "pharmacist" && (
                   <Route path="/pharmacist" element={<PharmacistLayout />}>
                     <Route index element={<Navigate to="verify" replace />} />
@@ -84,6 +91,7 @@ function MainContent() {
                   </Route>
                 )}
 
+                {/* Admin Routes */}
                 {user.role === "admin" && (
                   <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<Navigate to="assign-role" replace />} />
@@ -91,12 +99,22 @@ function MainContent() {
                   </Route>
                 )}
 
+                {/* Manufacturer Routes */}
                 {user.role === "manufacturer" && (
                   <Route path="/manufacturer" element={<ManufacturerLayout />}>
                     <Route index element={<Navigate to="create-drug" replace />} />
                     <Route path="create-drug" element={<CreateDrug />} />
                     <Route path="drug-inventory" element={<DrugInventory />} />
                     <Route path="verify-drug" element={<VerifyDrug />} />
+                  </Route>
+                )}
+
+                {/* Hospital Routes */}
+                {user.role === "hospital" && (
+                  <Route path="/hospital" element={<HospitalLayout />}>
+                    <Route index element={<Navigate to="dashboard" replace />} />
+                    <Route path="dashboard" element={<HospitalDashboard />} />
+                    {/* Add more hospital routes here as needed */}
                   </Route>
                 )}
 
@@ -112,6 +130,5 @@ function MainContent() {
     </Routes>
   );
 }
-
 
 export default App;
