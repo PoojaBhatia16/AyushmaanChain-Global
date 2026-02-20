@@ -13,3 +13,20 @@
 
 Select * from users;
 -- delete from users;
+
+
+
+
+CREATE TABLE patient (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+
+    country VARCHAR(100),
+
+    wallet_address VARCHAR(100) UNIQUE NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
