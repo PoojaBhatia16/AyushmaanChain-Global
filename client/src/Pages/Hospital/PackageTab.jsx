@@ -7,8 +7,12 @@ import {
 } from 'lucide-react';
 import AddPackageModal from "./AddPackageModal";
 import EditPackageModal from "./EditPackageModal";
+import usePackages from "../../hooks/usePackages";
+
 
 const PackageTab = ({ packages, setPackages, doctors }) => {
+  const { packagess, fetchPackagess } = usePackages();
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -224,6 +228,7 @@ const PackageTab = ({ packages, setPackages, doctors }) => {
           onClose={() => setShowAddModal(false)}
           onSave={handleAddPackage}
           doctors={doctors}
+  onCreated={fetchPackagess}
         />
       )}
 

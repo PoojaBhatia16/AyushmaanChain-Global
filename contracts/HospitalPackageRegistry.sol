@@ -15,6 +15,9 @@ contract HospitalPackageRegistry {
 
     mapping(string => Package) public packages;
     string[] public packageIds;
+    
+    // New mapping to track packages by hospital address
+    mapping(address => string[]) public hospitalPackages;
 
     event PackageCreated(
         string packageId,
@@ -44,6 +47,9 @@ contract HospitalPackageRegistry {
         });
 
         packageIds.push(_packageId);
+        
+        // Add package ID to hospital's package list
+        hospitalPackages[msg.sender].push(_packageId);
 
         emit PackageCreated(
             _packageId,
@@ -65,5 +71,51 @@ contract HospitalPackageRegistry {
 
     function getAllPackages() public view returns (string[] memory) {
         return packageIds;
+    }
+    
+    /**
+     * @dev Get all package IDs created by a specific hospital
+     * @param _hospital The hospital address to query
+     * @return string[] Array of package IDs created by the hospital
+     */
+    function getHospitalPackages(address _hospital) 
+        public 
+        view 
+        returns (string[] memory) 
+    {
+        return hospitalPackages[_hospital];
+    }
+    
+    /**
+     * @dev Get all package details for a specific hospital
+     * @param _hospital The hospital address to query
+     * @return Package[] Array of complete package structs
+     */
+    function getHospitalPackagesDetails(address _hospital) 
+        public 
+        view 
+        returns (Package[] memory) 
+    {
+        string[] memory packageIdsList = hospitalPackages[_hospital];
+        Package[] memory hospitalPackageDetails = new Package[](packageIdsList.length);
+        
+        for (uint i = 0; i < packageIdsList.length; i++) {
+            hospitalPackageDetails[i] = packages[packageIdsList[i]];
+        }
+        
+        return hospitalPackageDetails;
+    }
+    
+    /**
+     * @dev Get count of packages created by a specific hospital
+     * @param _hospital The hospital address to query
+     * @return uint Number of packages
+     */
+    function getHospitalPackageCount(address _hospital) 
+        public 
+        view 
+        returns (uint) 
+    {
+        return hospitalPackages[_hospital].length;
     }
 }
