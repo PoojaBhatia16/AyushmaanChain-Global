@@ -56,7 +56,7 @@ function MainContent() {
             ) : user.role === "distributor" ? (
               <Navigate to="/distributor/dashboard" replace />
             ) : (
-              <Navigate to="/homepage" replace />
+              <Navigate to="/distributor/dashboard" replace />
             )
           ) : (
             <AyushmaanChainLanding />
